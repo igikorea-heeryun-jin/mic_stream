@@ -28,7 +28,7 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
     private let mAudioEngine = AVAudioEngine()
     private let mRecordBus = 0
     private var isRecording: Bool = false
-    private var mInputNode: AVAudioInputNode
+    private var mInputNode: AVAudioInputNode!
     private var mRecordSampleRate: Double = 16000 // 16Khz
     private var mRecordBufferSize: AVAudioFrameCount = 8192
     private var mRecordChannel = 0
@@ -57,7 +57,6 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
     init( _ channel: FlutterMethodChannel, registrar: FlutterPluginRegistrar ) {
         self.channel = channel
         self.registrar = registrar
-        self.mInputNode = mAudioEngine.inputNode
         self.mRecordMixer = AVAudioMixerNode()
 
         super.init()
