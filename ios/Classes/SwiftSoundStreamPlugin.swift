@@ -57,11 +57,8 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
     init( _ channel: FlutterMethodChannel, registrar: FlutterPluginRegistrar ) {
         self.channel = channel
         self.registrar = registrar
-        self.mRecordMixer = AVAudioMixerNode()
 
         super.init()
-        self.attachPlayer()
-        mAudioEngine.prepare()
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -174,6 +171,12 @@ public class SwiftSoundStreamPlugin: NSObject, FlutterPlugin {
     }
 
     private func initializeRecorder(_ call: FlutterMethodCall, _ result: @escaping FlutterResult) {
+        self.mInputNode = mAudioEngine.inputNode
+        self.mRecordMixer = AVAudioMixerNode()
+
+        self.attachPlayer()
+        mAudioEngine.prepare()
+        
         guard let argsArr = call.arguments as? Dictionary<String,AnyObject>
         else {
             sendResult(result, FlutterError( code: SoundStreamErrors.Unknown.rawValue,
